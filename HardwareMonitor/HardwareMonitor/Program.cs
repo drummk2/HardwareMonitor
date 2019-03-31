@@ -1,6 +1,7 @@
-﻿using Castle.Windsor;
+﻿using Autofac;
 using HardwareMonitor.DI;
 using HardwareMonitor.ServiceInterfaces;
+using log4net.Config;
 using Topshelf;
 
 namespace HardwareMonitor
@@ -10,7 +11,9 @@ namespace HardwareMonitor
     /// </summary>
     public class Program
     {
-        public static void Main() =>
+        public static void Main()
+        {
+            XmlConfigurator.Configure();
             HostFactory.Run(factory =>
             {
                 factory.Service<IHardwareMonitoringService>(service =>
@@ -25,7 +28,14 @@ namespace HardwareMonitor
                 factory.SetDisplayName("Hardware Monitoring Service");
                 factory.SetServiceName("Hardware Monitoring Service");
             });
+        }
 
-        private static IWindsorContainer BuildContainer() => new WindsorContainer().Install(new WindsorInstaller());
+        private static IContainer BuildContainer()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterModule<StandardModule>();
+            builder.RegisterModule<LoggingModule>();
+            return builder.Build();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HardwareMonitor.ServiceInterfaces;
+using log4net;
 using System;
 using System.Configuration;
 using System.Timers;
@@ -10,16 +11,18 @@ namespace HardwareMonitor.ServiceClasses
     /// </summary>
     public class HardwareMonitoringService : IHardwareMonitoringService
     {
+        private readonly ILog _log;
         private readonly Timer _timer;
 
         /// <summary>
         /// Initialise a timer to control the rate at which the service executes.
         /// </summary>
-        public HardwareMonitoringService()
+        public HardwareMonitoringService(ILog log)
         {
+            _log = log;
             _timer = new Timer(double.Parse(ConfigurationManager.AppSettings["ServiceTimerDelayInterval"]));
             _timer.AutoReset = true;
-            _timer.Elapsed += (source, eventargs) => { Console.WriteLine(DateTime.Now); };
+            _timer.Elapsed += (source, eventargs) => { _log.Info(DateTime.Now); };
             _timer.Enabled = true;
         }
 
@@ -28,7 +31,7 @@ namespace HardwareMonitor.ServiceClasses
         /// </summary>
         public void Start()
         {
-            Console.WriteLine("STARTING!");
+            _log.Info("STARTING!");
         }
 
         /// <summary>
@@ -36,7 +39,7 @@ namespace HardwareMonitor.ServiceClasses
         /// </summary>
         public void Stop()
         {
-            Console.WriteLine("STOPPING!");
+            _log.Info("STOPPING!");
         }
     }
 }
