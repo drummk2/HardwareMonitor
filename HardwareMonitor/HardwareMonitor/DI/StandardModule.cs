@@ -13,6 +13,8 @@ namespace HardwareMonitor.DI
         {
             builder.RegisterType<HardwareMonitoringService>()
                    .As<IHardwareMonitoringService>();
+            builder.RegisterType<HardwareStatChecker>()
+                   .As<IHardwareStatChecker>();
         }
     }
 }
