@@ -15,7 +15,7 @@ namespace HardwareMonitor.ServiceClasses
         private readonly Timer _timer;
 
         /// <summary>
-        /// Initialise a timer to control the rate at which the service executes.
+        /// Initialise a timer to control the rate at which the service executes as well as a statistics checker.
         /// </summary>
         public HardwareMonitoringService(IHardwareStatChecker hardwareStatChecker, ILog log)
         {
