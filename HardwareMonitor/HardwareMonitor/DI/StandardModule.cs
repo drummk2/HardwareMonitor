@@ -2,7 +2,7 @@
 using HardwareMonitor.ServiceClasses;
 using HardwareMonitor.ServiceInterfaces;
 
-namespace HardwareMonitor.DI
+namespace HardwareMonitor
 {
     /// <summary>
     /// Initialises all classes for the Hardware Monitor (excluding the Logger).
@@ -13,8 +13,8 @@ namespace HardwareMonitor.DI
         {
             builder.RegisterType<HardwareMonitoringService>()
                    .As<IHardwareMonitoringService>();
-            builder.RegisterType<HardwareStatChecker>()
-                   .As<IHardwareStatChecker>();
+            builder.RegisterType<StatChecker>()
+                   .As<IStatChecker>();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace HardwareMonitor.DI
+namespace HardwareMonitor
 {
     /// <summary>
     /// Initialises the logger for the Hardware Monitor.
@@ -27,9 +27,7 @@ namespace HardwareMonitor.DI
                 propToSet.SetValue(instance, LogManager.GetLogger(instanceType), null);
         }
 
-        private static void OnComponentPreparing(object sender, PreparingEventArgs e)
-        {
-            e.Parameters = e.Parameters.Union(
+        private static void OnComponentPreparing(object sender, PreparingEventArgs e) => e.Parameters = e.Parameters.Union(
                 new[]
                 {
                     new ResolvedParameter(
@@ -37,7 +35,6 @@ namespace HardwareMonitor.DI
                         (p, i) => LogManager.GetLogger(p.Member.DeclaringType)
                     ),
                 });
-        }
 
         protected override void AttachToComponentRegistration(IComponentRegistry componentRegistry, IComponentRegistration registration)
         {

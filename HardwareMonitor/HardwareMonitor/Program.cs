@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using HardwareMonitor.DI;
 using HardwareMonitor.ServiceInterfaces;
 using log4net.Config;
 using Topshelf;
@@ -7,7 +6,7 @@ using Topshelf;
 namespace HardwareMonitor
 {
     /// <summary>
-    /// Configured and initialises the Hardware Monitoring Service.
+    /// Configures and initialises the Hardware Monitoring Service.
     /// </summary>
     public class Program
     {

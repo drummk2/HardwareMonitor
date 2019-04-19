@@ -3,7 +3,7 @@
     /// <summary>
     /// Hardware Stat Checker contract.
     /// </summary>
-    public interface IHardwareStatChecker
+    public interface IStatChecker
     {
         void LogCurrentStatistics(); 
     }

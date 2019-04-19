@@ -10,20 +10,20 @@ namespace HardwareMonitor.ServiceClasses
     /// </summary>
     public class HardwareMonitoringService : IHardwareMonitoringService
     {
-        private IHardwareStatChecker _hardwareStatChecker;
+        private IStatChecker _hardwareStatChecker;
         private readonly ILog _log;
         private readonly Timer _timer;
 
         /// <summary>
         /// Initialise a timer to control the rate at which the service executes as well as a statistics checker.
         /// </summary>
-        public HardwareMonitoringService(IHardwareStatChecker hardwareStatChecker, ILog log)
+        public HardwareMonitoringService(IStatChecker hardwareStatChecker, ILog log)
         {
             _hardwareStatChecker = hardwareStatChecker;
             _log = log;
             _timer = new Timer(double.Parse(ConfigurationManager.AppSettings["ServiceTimerDelayInterval"]));
             _timer.AutoReset = true;
-            _timer.Elapsed += (source, eventargs) => { _hardwareStatChecker.LogCurrentStatistics(); };
+            _timer.Elapsed += (source, eventargs) => _hardwareStatChecker.LogCurrentStatistics();
             _timer.Enabled = true;
         }
 

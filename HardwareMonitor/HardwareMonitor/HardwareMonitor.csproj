@@ -73,9 +73,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceClasses\HardwareMonitoringService.cs" />
-    <Compile Include="ServiceClasses\HardwareStatChecker.cs" />
+    <Compile Include="ServiceClasses\StatChecker.cs" />
     <Compile Include="ServiceInterfaces\IHardwareMonitoringService.cs" />
-    <Compile Include="ServiceInterfaces\IHardwareStatChecker.cs" />
+    <Compile Include="ServiceInterfaces\IStatChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
