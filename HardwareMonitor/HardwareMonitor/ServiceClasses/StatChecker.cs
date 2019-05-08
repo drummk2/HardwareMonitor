@@ -2,6 +2,7 @@
 using log4net;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace HardwareMonitor.ServiceClasses
         /// <summary>
         /// Check the PC's current CPU usage and log said value.
         /// </summary>
-        private string CheckCurrentCPUUsage()
+        private async Task<string> CheckCurrentCPUUsage()
         {
             PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total", true);
             cpuCounter.NextValue();
@@ -32,18 +33,18 @@ namespace HardwareMonitor.ServiceClasses
         /// Check the PC's current available RAM and log said value.
         /// </summary>
         /// <returns></returns>
-        private string CheckCurrentAvailableRAM()
+        private async Task<string> CheckCurrentAvailableRAM()
         {
             PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes", true);
             ramCounter.NextValue();
             Task.Delay(500).Wait();
-            return $"{Math.Round((ramCounter.NextValue() / 1024) / 1024, 2)}";
+            return $"{Math.Round((ramCounter.NextValue() / 1024), 2)}";
         }
 
         /// <summary>
         /// Check the current download speed for the PC and log said value.
         /// </summary>
-        private string CheckCurrentDownloadSpeed()
+        private async Task<string> CheckCurrentDownloadSpeed()
         {
             double[] downloadSpeeds = new double[5];
             for (int i = 0; i < 5; i++)
@@ -55,17 +56,31 @@ namespace HardwareMonitor.ServiceClasses
                 DateTime endTime = DateTime.Now;
                 downloadSpeeds[i] = Math.Round((jQueryFileSize / (endTime - startTime).TotalSeconds));
             }
-            return $"{downloadSpeeds.Average()}";
+            return $"{Math.Round(downloadSpeeds.Average() / 1024, 2)}";
+        }
+
+        /// <summary>
+        /// Checks the current free space on a specified drive.
+        /// </summary>
+        /// <param name="driveName">The name of the drive in question.</param>
+        /// <returns>The free space on the specified drive.</returns>
+        private async Task<long> CheckCurrentDriveSpace(string driveName)
+        {
+            return DriveInfo.GetDrives()
+                .Where(d => Equals(d.Name, driveName))
+                .Select(d => d.AvailableFreeSpace)
+                .FirstOrDefault() / (1024 * 1024 * 1024);
         }
 
         /// <summary>
         /// Log any relevant statistics for the user's PC.
         /// </summary>
-        public void LogCurrentStatistics()
+        public async Task LogCurrentStatistics()
         {
-            _log.Info($"CPU Usage      ->\t{CheckCurrentCPUUsage()}");
-            _log.Info($"RAM Usage      ->\t{CheckCurrentAvailableRAM()}Gb");
-            _log.Info($"Internet Speed ->\t{CheckCurrentDownloadSpeed()}Mb/s{Environment.NewLine}");
+            _log.Info($"CPU Usage        -> {await CheckCurrentCPUUsage()}");
+            _log.Info($"Available RAM    -> {await CheckCurrentAvailableRAM()}Gb");
+            _log.Info($"Internet Speed   -> {await CheckCurrentDownloadSpeed()}Mb/s{Environment.NewLine}");
+            _log.Info($"Free Space (C:/) -> {await CheckCurrentDriveSpace(@"C:\")}Gb");
         }
     }
 }
