@@ -23,7 +23,7 @@ namespace HardwareMonitor.ServiceClasses
             _log = log;
             _timer = new Timer(double.Parse(ConfigurationManager.AppSettings["ServiceTimerDelayInterval"]));
             _timer.AutoReset = true;
-            _timer.Elapsed += async (source, eventargs) => await _hardwareStatChecker.LogCurrentStatistics();
+            _timer.Elapsed += async (sender, e) => await _hardwareStatChecker.LogCurrentStatistics().ConfigureAwait(false);
             _timer.Enabled = true;
         }
 
