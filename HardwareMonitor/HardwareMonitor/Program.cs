@@ -11,7 +11,7 @@ namespace HardwareMonitor
     public class Program
     {
         /// <summary>
-        /// Initiaise the TopShelf service factory and set any relevant properties.
+        /// Initialise the TopShelf service factory and set any relevant properties.
         /// </summary>
         public static void Main()
         {
@@ -35,7 +35,7 @@ namespace HardwareMonitor
         /// <summary>
         /// Build an AutoFac container to be used by the service.
         /// </summary>
-        /// <returns>a pre-build AutoFac container.</returns>
+        /// <returns>A pre-built AutoFac container.</returns>
         private static IContainer BuildContainer()
         {
             ContainerBuilder builder = new ContainerBuilder();

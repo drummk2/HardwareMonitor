@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using HardwareMonitor.ServiceClasses;
+using System.Threading.Tasks;
 
 namespace HardwareMonitor.ServiceInterfaces
 {
     /// <summary>
-    /// Hardware Stat Checker contract.
+    /// Defines a contract implemented by <see cref="StatChecker"/> class.
     /// </summary>
     public interface IStatChecker
     {
