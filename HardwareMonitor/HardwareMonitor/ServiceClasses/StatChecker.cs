@@ -14,15 +14,8 @@ namespace HardwareMonitor.ServiceClasses
     /// </summary>
     public class StatChecker : IStatChecker
     {
-        /// <summary>
-        /// An injected Log4net instance, see <see cref="LoggingModule"/> for futher information.
-        /// </summary>
         private readonly ILog _log;
 
-        /// <summary>
-        /// Initialise an instance of the <see cref="StatChecker"/> class.
-        /// </summary>
-        /// <param name="log"></param>
         public StatChecker(ILog log) => _log = log;
 
         /// <summary>

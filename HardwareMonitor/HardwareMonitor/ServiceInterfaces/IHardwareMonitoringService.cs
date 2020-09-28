@@ -1,9 +1,7 @@
-﻿using HardwareMonitor.ServiceClasses;
-
-namespace HardwareMonitor.ServiceInterfaces
+﻿namespace HardwareMonitor.ServiceInterfaces
 {
     /// <summary>
-    /// Defines a contract implemented by <see cref="HardwareMonitoringService"/> class.
+    /// Hardware Monitoring Service contract.
     /// </summary>
     public interface IHardwareMonitoringService
     {

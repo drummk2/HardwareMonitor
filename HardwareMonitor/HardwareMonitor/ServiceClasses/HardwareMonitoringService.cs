@@ -10,19 +10,8 @@ namespace HardwareMonitor.ServiceClasses
     /// </summary>
     public class HardwareMonitoringService : IHardwareMonitoringService
     {
-        /// <summary>
-        /// An instance of the <see cref="StatChecker"/> class.
-        /// </summary>
         private IStatChecker _hardwareStatChecker;
-        
-        /// <summary>
-        /// An injected Log4net instance, see <see cref="LoggingModule"/> for futher information.
-        /// </summary>
         private readonly ILog _log;
-        
-        /// <summary>
-        /// A timer instance to moderate when the service runs.
-        /// </summary>
         private readonly Timer _timer;
 
         /// <summary>
@@ -39,12 +28,12 @@ namespace HardwareMonitor.ServiceClasses
         }
 
         /// <summary>
-        /// Start the service when prompted (called by the TopShelf host factory).
+        /// Start the service when prompted.
         /// </summary>
         public void Start() => _log.Info("STARTING!");
 
         /// <summary>
-        /// Stop the service when prompted (called by the TopShelf host factory).
+        /// Stop the service when prompted.
         /// </summary>
         public void Stop() => _log.Info("STOPPING!");
     }
