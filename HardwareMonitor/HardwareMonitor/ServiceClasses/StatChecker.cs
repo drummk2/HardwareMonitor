@@ -1,6 +1,8 @@
 ﻿using HardwareMonitor.ServiceInterfaces;
 using log4net;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -24,6 +26,29 @@ namespace HardwareMonitor.ServiceClasses
         /// </summary>
         /// <param name="log"></param>
         public StatChecker(ILog log) => _log = log;
+
+        /// <summary>
+        /// Checks the current free space on all "Fixed" drives on the user's machine.
+        /// </summary>
+        private async Task CheckAllDrives()
+        {
+            foreach (DriveInfo drive in DriveInfo.GetDrives().Where(d => Equals(d.DriveType, DriveType.Fixed)))
+                _log.Info($"Free Space ({drive.Name}) -> {await CheckCurrentDriveSpace(drive.Name).ConfigureAwait(false)}Gb");
+        }
+
+        /// <summary>
+        /// Checks the current free space on a specified drive.
+        /// </summary>
+        /// <param name="driveName">The name of the drive in question.</param>
+        /// <returns>The free space on the specified drive.</returns>
+        private Task<long> CheckCurrentDriveSpace(string driveName)
+        {
+            return Task.FromResult(
+                DriveInfo.GetDrives()
+                    .Where(d => Equals(d.Name, driveName))
+                    .Select(d => d.AvailableFreeSpace)
+                    .FirstOrDefault() / (1024 * 1024 * 1024));
+        }
 
         /// <summary>
         /// Check the PC's current CPU usage and log said value.
@@ -69,28 +94,14 @@ namespace HardwareMonitor.ServiceClasses
         }
 
         /// <summary>
-        /// Checks the current free space on a specified drive.
-        /// </summary>
-        /// <param name="driveName">The name of the drive in question.</param>
-        /// <returns>The free space on the specified drive.</returns>
-        private Task<long> CheckCurrentDriveSpace(string driveName)
-        {
-            return Task.FromResult(
-                DriveInfo.GetDrives()
-                    .Where(d => Equals(d.Name, driveName))
-                    .Select(d => d.AvailableFreeSpace)
-                    .FirstOrDefault() / (1024 * 1024 * 1024));
-        }
-
-        /// <summary>
         /// Log any relevant statistics for the user's PC.
         /// </summary>
         public async Task LogCurrentStatistics()
         {
+            await CheckAllDrives().ConfigureAwait(false);
             _log.Info($"CPU Usage        -> {await CheckCurrentCPUUsage().ConfigureAwait(false)}");
             _log.Info($"Available RAM    -> {await CheckCurrentAvailableRAM().ConfigureAwait(false)}Gb");
-            _log.Info($"Internet Speed   -> {await CheckCurrentDownloadSpeed().ConfigureAwait(false)}Mb/s");
-            _log.Info($"Free Space (C:/) -> {await CheckCurrentDriveSpace(@"C:\").ConfigureAwait(false)}Gb{Environment.NewLine}");
+            _log.Info($"Internet Speed   -> {await CheckCurrentDownloadSpeed().ConfigureAwait(false)}Mb/s{Environment.NewLine}");
         }
     }
 }
