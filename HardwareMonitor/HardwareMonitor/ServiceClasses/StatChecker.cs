@@ -1,8 +1,6 @@
 ﻿using HardwareMonitor.ServiceInterfaces;
 using log4net;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -42,13 +40,11 @@ namespace HardwareMonitor.ServiceClasses
         /// <param name="driveName">The name of the drive in question.</param>
         /// <returns>The free space on the specified drive.</returns>
         private Task<long> CheckCurrentDriveSpace(string driveName)
-        {
-            return Task.FromResult(
-                DriveInfo.GetDrives()
-                    .Where(d => Equals(d.Name, driveName))
-                    .Select(d => d.AvailableFreeSpace)
-                    .FirstOrDefault() / (1024 * 1024 * 1024));
-        }
+            => Task.FromResult(
+                   DriveInfo.GetDrives()
+                       .Where(d => Equals(d.Name, driveName))
+                       .Select(d => d.AvailableFreeSpace)
+                       .FirstOrDefault() / (1024 * 1024 * 1024));
 
         /// <summary>
         /// Check the PC's current CPU usage and log said value.
