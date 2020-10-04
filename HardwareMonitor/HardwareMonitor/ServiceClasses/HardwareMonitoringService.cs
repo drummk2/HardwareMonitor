@@ -41,7 +41,7 @@ namespace HardwareMonitor.ServiceClasses
         /// <summary>
         /// Start the service when prompted (called by the TopShelf host factory).
         /// </summary>
-        public void Start() => _log.Info("STARTING!");
+        public void Start() => _log.Info($"STARTING!{Environment.NewLine}");
 
         /// <summary>
         /// Stop the service when prompted (called by the TopShelf host factory).
