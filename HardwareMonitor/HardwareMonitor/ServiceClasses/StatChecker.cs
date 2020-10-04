@@ -80,11 +80,10 @@ namespace HardwareMonitor.ServiceClasses
             for (int i = 0; i < 5; i++)
             {
                 WebClient client = new WebClient();
-                int jQueryFileSize = 261;
                 DateTime startTime = DateTime.Now;
                 client.DownloadFile("http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js", "./jquery.js");
                 DateTime endTime = DateTime.Now;
-                downloadSpeeds[i] = Math.Round(jQueryFileSize / (endTime - startTime).TotalSeconds);
+                downloadSpeeds[i] = Math.Round(261 / (endTime - startTime).TotalSeconds);
             }
             return Task.FromResult($"{Math.Round(downloadSpeeds.Average() / 1024, 2)}");
         }
