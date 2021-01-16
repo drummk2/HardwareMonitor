@@ -16,9 +16,11 @@ namespace HardwareMonitor
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<HardwareMonitoringService>()
-                   .As<IHardwareMonitoringService>();
+                   .As<IHardwareMonitoringService>()
+                   .SingleInstance();
             builder.RegisterType<StatChecker>()
-                   .As<IStatChecker>();
+                   .As<IStatChecker>()
+                   .SingleInstance();
         }
     }
 }
