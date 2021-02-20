@@ -18,6 +18,7 @@ namespace HardwareMonitor
             builder.RegisterType<HardwareMonitoringService>()
                    .As<IHardwareMonitoringService>()
                    .SingleInstance();
+
             builder.RegisterType<StatChecker>()
                    .As<IStatChecker>()
                    .SingleInstance();

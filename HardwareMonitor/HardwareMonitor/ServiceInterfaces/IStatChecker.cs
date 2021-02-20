@@ -8,6 +8,9 @@ namespace HardwareMonitor.ServiceInterfaces
     /// </summary>
     public interface IStatChecker
     {
+        /// <summary>
+        /// Log any relevant statistics for the user's PC.
+        /// </summary>
         Task LogCurrentStatistics(); 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using HardwareMonitor.ServiceInterfaces;
 using log4net;
+using System;
 using System.Configuration;
 using System.Timers;
 
@@ -32,7 +33,7 @@ namespace HardwareMonitor.ServiceClasses
         {
             _hardwareStatChecker = hardwareStatChecker;
             _log = log;
-            _timer = new Timer(double.Parse(ConfigurationManager.AppSettings["ServiceTimerDelayInterval"]));
+            _timer = new Timer(double.Parse(ConfigurationManager.AppSettings["ServiceTimerDelayIntervalInMilliseconds"]));
             _timer.AutoReset = true;
             _timer.Elapsed += async (sender, e) => await _hardwareStatChecker.LogCurrentStatistics().ConfigureAwait(false);
             _timer.Enabled = true;
@@ -46,6 +47,6 @@ namespace HardwareMonitor.ServiceClasses
         /// <summary>
         /// Stop the service when prompted (called by the TopShelf host factory).
         /// </summary>
-        public void Stop() => _log.Info("STOPPING!");
+        public void Stop() => _log.Info($"STOPPING!{Environment.NewLine}");
     }
 }

@@ -7,8 +7,14 @@ namespace HardwareMonitor.ServiceInterfaces
     /// </summary>
     public interface IHardwareMonitoringService
     {
+        /// <summary>
+        /// Start the service when prompted (called by the TopShelf host factory).
+        /// </summary>
         void Start();
 
+        /// <summary>
+        /// Stop the service when prompted (called by the TopShelf host factory).
+        /// </summary>
         void Stop();
     }
 }

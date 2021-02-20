@@ -93,10 +93,17 @@ namespace HardwareMonitor.ServiceClasses
         /// </summary>
         public async Task LogCurrentStatistics()
         {
-            await CheckAllDrives().ConfigureAwait(false);
-            _log.Info($"CPU Usage        -> {await CheckCurrentCPUUsage().ConfigureAwait(false)}");
-            _log.Info($"Available RAM    -> {await CheckCurrentAvailableRAM().ConfigureAwait(false)}Gb");
-            _log.Info($"Internet Speed   -> {await CheckCurrentDownloadSpeed().ConfigureAwait(false)}Mb/s{Environment.NewLine}");
+            try
+            {
+                await CheckAllDrives().ConfigureAwait(false);
+                _log.Info($"CPU Usage        -> {await CheckCurrentCPUUsage().ConfigureAwait(false)}");
+                _log.Info($"Available RAM    -> {await CheckCurrentAvailableRAM().ConfigureAwait(false)}Gb");
+                _log.Info($"Internet Speed   -> {await CheckCurrentDownloadSpeed().ConfigureAwait(false)}Mb/s{Environment.NewLine}");
+            }
+            catch (Exception e)
+            {
+                _log.Error("An error has occurred in the Hardware Monitoring Service", e);
+            }
         }
     }
 }
