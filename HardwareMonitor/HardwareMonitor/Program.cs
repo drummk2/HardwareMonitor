@@ -39,7 +39,7 @@ namespace HardwareMonitor
         private static IContainer BuildContainer()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterModule<LoggingModule>()
+            builder.RegisterModule<LoggingModule>();
             builder.RegisterModule<StandardModule>();
             return builder.Build();
         }
