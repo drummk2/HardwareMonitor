@@ -6,15 +6,13 @@ using System.Timers;
 
 namespace HardwareMonitor.ServiceClasses
 {
-    /// <summary>
-    /// Periodically monitors the user's PC and logs performance statistics for that time.
-    /// </summary>
+    /// <inheritdoc cref="IHardwareMonitoringService"/>
     public class HardwareMonitoringService : IHardwareMonitoringService
     {
         /// <summary>
         /// An instance of the <see cref="StatChecker"/> class.
         /// </summary>
-        private IStatChecker _hardwareStatChecker;
+        private readonly IStatChecker _hardwareStatChecker;
         
         /// <summary>
         /// An injected Log4net instance, see <see cref="LoggingModule"/> for futher information.
@@ -33,20 +31,16 @@ namespace HardwareMonitor.ServiceClasses
         {
             _hardwareStatChecker = hardwareStatChecker;
             _log = log;
-            _timer = new Timer(double.Parse(ConfigurationManager.AppSettings["ServiceTimerDelayIntervalInMilliseconds"]));
+            _timer = new Timer(double.Parse(ConfigurationManager.AppSettings["ServiceTimerDelayIntervalInSeconds"]) * 1000);
             _timer.AutoReset = true;
             _timer.Elapsed += async (sender, e) => await _hardwareStatChecker.LogCurrentStatistics().ConfigureAwait(false);
             _timer.Enabled = true;
         }
 
-        /// <summary>
-        /// Start the service when prompted (called by the TopShelf host factory).
-        /// </summary>
+        /// <inheritdoc/>
         public void Start() => _log.Info($"STARTING!{Environment.NewLine}");
 
-        /// <summary>
-        /// Stop the service when prompted (called by the TopShelf host factory).
-        /// </summary>
+        /// <inheritdoc/>
         public void Stop() => _log.Info($"STOPPING!{Environment.NewLine}");
     }
 }

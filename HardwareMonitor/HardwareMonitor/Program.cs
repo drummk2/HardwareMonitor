@@ -8,12 +8,12 @@ namespace HardwareMonitor
     /// <summary>
     /// Configures and initialises the Hardware Monitoring Service.
     /// </summary>
-    public class Program
+    internal class Program
     {
         /// <summary>
         /// Initialise the TopShelf service factory and set any relevant properties.
         /// </summary>
-        public static void Main()
+        private static void Main()
         {
             XmlConfigurator.Configure();
             HostFactory.Run(factory =>
@@ -27,8 +27,8 @@ namespace HardwareMonitor
 
                 factory.RunAsLocalSystem();
                 factory.StartAutomatically();
-                factory.SetDisplayName("Hardware Monitoring Service");
-                factory.SetServiceName("Hardware Monitoring Service");
+                factory.SetDisplayName("Hardware Monitor");
+                factory.SetServiceName("Hardware Monitor");
             });
         }
 
@@ -39,8 +39,8 @@ namespace HardwareMonitor
         private static IContainer BuildContainer()
         {
             ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterModule<LoggingModule>()
             builder.RegisterModule<StandardModule>();
-            builder.RegisterModule<LoggingModule>();
             return builder.Build();
         }
     }

@@ -9,7 +9,7 @@ using System.Reflection;
 namespace HardwareMonitor
 {
     /// <summary>
-    /// Initialises the logger for the Hardware Monitor.
+    /// Initialises logging for the Hardware Monitor's AutoFac container.
     /// </summary>
     public class LoggingModule : Autofac.Module
     {

@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 
 namespace HardwareMonitor.ServiceClasses
 {
-    /// <summary>
-    /// Retrieves statistics about the user's PC. For example, the current CPU usage or available RAM.
-    /// </summary>
+    /// <inheritdoc cref="IStatChecker"/>
     public class StatChecker : IStatChecker
     {
         /// <summary>
@@ -88,9 +86,7 @@ namespace HardwareMonitor.ServiceClasses
             return Task.FromResult($"{Math.Round(downloadSpeeds.Average() / 1024, 2)}");
         }
 
-        /// <summary>
-        /// Log any relevant statistics for the user's PC.
-        /// </summary>
+        /// <inheritdoc/>
         public async Task LogCurrentStatistics()
         {
             try
